@@ -21,6 +21,14 @@
 \renewcommand{\VkrLogoPath}{assets/logo-rgpu-herzen.png}
 \renewcommand{\VkrRightBlockWidth}{95mm}
 
+% PDF-метаданные (видны в свойствах файла и индексаторах).
+% В своем форке можно свободно менять под проект/кафедру.
+\renewcommand{\VkrPdfTitle}{\VkrWorkKind: \VkrTheme}
+\renewcommand{\VkrPdfAuthor}{\VkrStudentName}
+\renewcommand{\VkrPdfSubject}{\VkrDirectionCode\ \VkrDirectionName}
+\renewcommand{\VkrPdfKeywords}{ВКР, адаптивное обучение, машинное обучение, LuaLaTeX}
+\renewcommand{\VkrPdfCreator}{student-thesis-gost template}
+
 % Ниже можно задать разный тип ВКР по уровню подготовки (бакалавр/специалитет).
 \edef\VkrBuildDegree{\VkrDegree}
 \ifdefstring{\VkrBuildDegree}{specialist}{%

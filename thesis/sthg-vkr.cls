@@ -43,7 +43,7 @@
 \RequirePackage{fancyhdr}
 \RequirePackage{listings}
 \RequirePackage{csquotes}
-\RequirePackage[hidelinks]{hyperref}
+\RequirePackage[hidelinks,pdflang={ru-RU}]{hyperref}
 % URL-гиперссылки (в т.ч. в библиографии) набираем тем же шрифтом, что и текст.
 \urlstyle{same}
 \RequirePackage[
@@ -163,12 +163,23 @@
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
 
-\captionsetup{font=small,justification=centering}
-\captionsetup[table]{position=top}
-\captionsetup[figure]{position=bottom}
-% Подписи листингов держим в том же типографическом режиме, что figure/table:
-% serif-шрифт, одинаковый кегль и выравнивание.
-\captionsetup[lstlisting]{font={small,rm},labelfont={rm},textfont={rm},justification=centering}
+% В caption по умолчанию есть endash, но для русского шаблона удобнее явный emdash.
+\DeclareCaptionLabelSeparator{emdash}{\space\textemdash\space}
+% Все подписи (рисунки/таблицы/листинги) набираем тем же кеглем, что основной текст.
+\captionsetup{font={normalsize,rm},labelfont={rm},textfont={rm},justification=centering}
+\captionsetup[table]{position=top,labelsep=period}
+\captionsetup[figure]{position=bottom,labelsep=emdash}
+% Подписи листингов держим в том же типографическом режиме, что figure/table.
+\captionsetup[lstlisting]{font={normalsize,rm},labelfont={rm},textfont={rm},justification=centering,labelsep=period}
+\AtBeginDocument{%
+  % Polyglossia/Babel могут повторно выставлять "Рис." для русской локали.
+  % Фиксируем полное имя подписи рисунка и для текущего документа, и для
+  % локализованных caption-переключателей.
+  \renewcommand{\figurename}{Рисунок}%
+  \ifcsdef{captionsrussian}{%
+    \gappto\captionsrussian{\renewcommand{\figurename}{Рисунок}}%
+  }{}%
+}
 \renewcommand{\lstlistingname}{Листинг}
 \renewcommand{\lstlistlistingname}{Список листингов}
 
@@ -242,7 +253,25 @@
 \settowidth{\cftchapnumwidth}{Глава 10.\ }
 \renewcommand{\cftdotsep}{1}
 
-\hypersetup{pdflang={ru-RU},pdfauthor={Student Thesis GOST Project}}
+% После \appendix включаем отдельный режим заголовков и оглавления приложений.
+% Формат на странице: "Приложение А" + на следующей строке название.
+% Формат в оглавлении: "Приложение А --- Название".
+\newcommand{\sthg@setupappendixheading}{%
+  \titleformat{\chapter}[block]{\bfseries\centering}{\appendixname~\thechapter}{0pt}{\\[0.3\baselineskip]}%
+  \titlespacing*{\chapter}{0pt}{0pt}{12pt}%
+}
+\newcommand{\sthg@setuptocforappendix}{%
+  \addtocontents{toc}{\protect\renewcommand{\protect\cftchappresnum}{\appendixname~}}%
+  \addtocontents{toc}{\protect\renewcommand{\protect\cftchapaftersnum}{\space---\space}}%
+  \addtocontents{toc}{\protect\settowidth{\protect\cftchapnumwidth}{\appendixname~Я\space---\space}}%
+}
+\let\sthg@origappendix\appendix
+\renewcommand{\appendix}{%
+  \sthg@origappendix
+  \renewcommand{\thechapter}{\Asbuk{chapter}}%
+  \sthg@setupappendixheading
+  \sthg@setuptocforappendix
+}
 
 % Дефолтные метаданные титула.
 % Практически всегда переопределяются в config/metadata.tex.
@@ -275,6 +304,22 @@
 \providecommand{\VkrRightBlockTopSkip}{1.25\baselineskip}
 \providecommand{\VkrLogoWidth}{34mm}
 \providecommand{\VkrThemeWidth}{0.9\textwidth}
+% Метаданные PDF (можно переопределить в config/metadata.tex).
+\providecommand{\VkrPdfTitle}{\VkrWorkKind}
+\providecommand{\VkrPdfAuthor}{\VkrStudentName}
+\providecommand{\VkrPdfSubject}{\VkrDirectionCode\space\VkrDirectionName}
+\providecommand{\VkrPdfKeywords}{ВКР, ГОСТ, LuaLaTeX}
+\providecommand{\VkrPdfCreator}{sthg-vkr class}
+
+\AtBeginDocument{%
+  \hypersetup{%
+    pdftitle={\VkrPdfTitle},
+    pdfauthor={\VkrPdfAuthor},
+    pdfsubject={\VkrPdfSubject},
+    pdfkeywords={\VkrPdfKeywords},
+    pdfcreator={\VkrPdfCreator}
+  }%
+}
 
 % Служебная команда для ненумеруемых глав (введение/заключение).
 \newcommand{\VkrUnnumberedChapter}[1]{
