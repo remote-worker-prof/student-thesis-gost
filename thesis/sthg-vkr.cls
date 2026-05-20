@@ -167,10 +167,11 @@
 \DeclareCaptionLabelSeparator{emdash}{\space\textemdash\space}
 % Все подписи (рисунки/таблицы/листинги) набираем тем же кеглем, что основной текст.
 \captionsetup{font={normalsize,rm},labelfont={rm},textfont={rm},justification=centering}
-\captionsetup[table]{position=top,labelsep=period}
+% По ГОСТ наименование таблицы размещают над таблицей и выравнивают влево.
+\captionsetup[table]{position=top,labelsep=emdash,justification=raggedright,singlelinecheck=false}
 \captionsetup[figure]{position=bottom,labelsep=emdash}
 % Подписи листингов держим в том же типографическом режиме, что figure/table.
-\captionsetup[lstlisting]{font={normalsize,rm},labelfont={rm},textfont={rm},justification=centering,labelsep=period}
+\captionsetup[lstlisting]{font={normalsize,rm},labelfont={rm},textfont={rm},justification=centering,labelsep=emdash}
 \AtBeginDocument{%
   % Polyglossia/Babel могут повторно выставлять "Рис." для русской локали.
   % Фиксируем полное имя подписи рисунка и для текущего документа, и для

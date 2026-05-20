@@ -3,6 +3,54 @@
 В приложении приводятся дополнительные примеры программных фрагментов для
 разных языков разработки.
 
+Для удобства аудита в приложении также даны табличные материалы. Реестр полей
+учебного события приведен в таблице \ref{tab:event-fields-registry}, а сводная
+матрица правил принятия решения -- в таблице \ref{tab:decision-rules-matrix}.
+
+\begin{table}[htbp]
+  \caption{Расширенный реестр полей учебного события}
+  \label{tab:event-fields-registry}
+  \centering
+
+  \begin{tabular}{|p{0.26\textwidth}|p{0.18\textwidth}|p{0.14\textwidth}|p{0.29\textwidth}|}
+    \hline
+    Поле & Тип & Обязательность & Назначение \\
+    \hline
+    \texttt{student\_id} & целое & Да & Идентификатор студента в аналитическом контуре \\
+    \hline
+    \texttt{task\_id} & целое & Да & Идентификатор задания в банке контента \\
+    \hline
+    \texttt{is\_correct} & булево & Да & Факт корректного выполнения шага \\
+    \hline
+    \texttt{latency\_sec} & вещественное & Да & Время ответа для оценки устойчивости навыка \\
+    \hline
+    \texttt{attempt\_no} & целое & Нет & Номер попытки в пределах одного задания \\
+    \hline
+    \texttt{reason\_tags} & массив строк & Нет & Диагностические теги для интерпретации рекомендации \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+  \caption{Сводная матрица правил адаптивного выбора шага}
+  \label{tab:decision-rules-matrix}
+  \centering
+
+  \begin{tabular}{|p{0.24\textwidth}|p{0.25\textwidth}|p{0.20\textwidth}|p{0.22\textwidth}|}
+    \hline
+    Условие профиля & Решение системы & Флаг состояния & Действие эксперта \\
+    \hline
+    \texttt{mastery} $<$ 0.55 и высокая латентность & Повтор базового задания & \texttt{recover\_skill} & Проверка корректности карты предпосылок \\
+    \hline
+    \texttt{mastery} 0.55--0.78 и стабильные ответы & Переход к смешанному блоку & \texttt{stabilize\_baseline} & Без вмешательства, мониторинг тренда \\
+    \hline
+    \texttt{mastery} $>$ 0.78 и низкая латентность & Усложнение траектории & \texttt{advance\_topic} & Точечная ревизия при спорном объяснении \\
+    \hline
+    Рост \texttt{frustration} при падении точности & Снижение сложности и микро-обратная связь & \texttt{fatigue\_guard} & Ручная корректировка \texttt{delta\_reward} \\
+    \hline
+  \end{tabular}
+\end{table}
+
 \section*{Python}
 
 \begin{lstlisting}[style=sthgcode-python,caption={Пример функции обновления приоритета задания}]

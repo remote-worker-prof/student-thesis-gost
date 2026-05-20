@@ -33,6 +33,32 @@
 так и контур обратной связи, в котором преподаватель и экспертные интерфейсы
 влияют на дальнейшую настройку политики.
 
+Для прозрачной настройки курса ключевые параметры адаптивной политики собраны в
+таблице \ref{tab:policy-params}. Такой формат упрощает нормоконтроль и
+согласование параметров между методистом и разработчиком.
+
+\begin{table}[htbp]
+  \caption{Ключевые параметры адаптивной политики}
+  \label{tab:policy-params}
+  \centering
+
+  \begin{tabular}{|p{0.27\textwidth}|p{0.20\textwidth}|p{0.40\textwidth}|}
+    \hline
+    Параметр & Типовое значение & Назначение \\
+    \hline
+    \texttt{mastery\_threshold} & 0.78 & Порог перехода к более сложному шагу \\
+    \hline
+    \texttt{epsilon\_start} & 1.00 & Стартовый уровень исследовательского поведения политики \\
+    \hline
+    \texttt{epsilon\_end} & 0.05 & Нижняя граница доли исследовательских действий \\
+    \hline
+    \texttt{reward\_weights} & [0.45, 0.25, 0.20, 0.10] & Баланс учебного прогресса, вовлеченности, утомления и фрустрации \\
+    \hline
+    \texttt{max\_review\_gap} & 5 шагов & Максимальный интервал до повторной проверки навыка \\
+    \hline
+  \end{tabular}
+\end{table}
+
 \begin{figure}[htbp]
   \centering
 
@@ -127,6 +153,30 @@ public ReviewResult submitExpertReview(@RequestBody ExpertReview payload) {
     return ReviewResult.ok(payload.recommendationId());
 }
 \end{lstlisting}
+
+Распределение ролей и типовых пользовательских сценариев приведено в таблице
+\ref{tab:user-roles-scenarios}. Таблица фиксирует, какие сущности данных
+задействуются в каждом контуре взаимодействия.
+
+\begin{table}[htbp]
+  \caption{Роли пользователей и ключевые сценарии взаимодействия}
+  \label{tab:user-roles-scenarios}
+  \centering
+
+  \begin{tabular}{|p{0.18\textwidth}|p{0.34\textwidth}|p{0.35\textwidth}|}
+    \hline
+    Роль & Основной сценарий & Ключевые поля/сущности \\
+    \hline
+    Студент & Получение следующего задания и объяснения выбора & \texttt{task\_id}, \texttt{confidence}, \texttt{reason\_text} \\
+    \hline
+    Методист & Публикация и ревизия контента курса & \texttt{skill\_map}, \texttt{difficulty\_band}, \texttt{prerequisite\_links} \\
+    \hline
+    Эксперт & Коррекция подкрепления и редактирование объяснений & \texttt{recommendation\_id}, \texttt{expert\_delta\_reward}, \texttt{edited\_reason} \\
+    \hline
+    Администратор & Мониторинг стабильности и запуск регламентных процедур & \texttt{policy\_version}, \texttt{drift\_alerts}, \texttt{deployment\_status} \\
+    \hline
+  \end{tabular}
+\end{table}
 
 Отдельная задача проектирования -- обеспечить предсказуемую эксплуатацию модели
 в условиях частично наблюдаемых данных. В реальных курсах часть событий может

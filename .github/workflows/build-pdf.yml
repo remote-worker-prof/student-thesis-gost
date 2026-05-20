@@ -21,6 +21,7 @@ jobs:
         run: |
           ./scripts/check_tex_style.sh
           ./scripts/check_intro_structure.sh
+          ./scripts/check_caption_policy.sh
 
       # Собираем оба варианта ВКР (бакалавр и специалитет).
       - name: Compile PDFs (bachelor + specialist)

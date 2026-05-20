@@ -14,17 +14,22 @@ cat <<'OUT'
 - Скрипт: scripts/check_intro_structure.sh
 - Назначение: hard-fail контроль обязательной композиции введения по эталонной схеме.
 
-3) Шрифты PDF
+3) Политика подписей и таблиц
+- make check-caption-policy
+- Скрипт: scripts/check_caption_policy.sh
+- Назначение: контроль emdash для листингов, ГОСТ-режима таблиц и минимального количества таблиц в шаблоне.
+
+4) Шрифты PDF
 - make check-fonts
 - Скрипт: scripts/check_fonts.sh
 - Назначение: проверка встроенных PT Astra Serif, Fira Code и STIX Two Math.
 
-4) Геометрия титульного листа
+5) Геометрия титульного листа
 - make check-layout
 - Скрипт: scripts/check_title_layout.sh
 - Назначение: сравнение первой страницы с эталонным DOCX по RMSE.
 
-5) Структура итогового PDF
+6) Структура итогового PDF
 - make check-structure
 - Скрипт: scripts/check_structure.sh
 - Назначение: наличие обязательных разделов ВКР в финальном документе.

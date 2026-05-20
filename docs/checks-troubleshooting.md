@@ -5,7 +5,8 @@
 
 ## Как читать код ошибки
 - Пример: `STYLE-004`.
-- Префикс (`STYLE`, `INTRO`, `FONT`, `STRUCT`, `LAYOUT`) показывает тип проверки.
+- Префикс (`STYLE`, `INTRO`, `FONT`, `STRUCT`, `LAYOUT`, `CAPTION`) показывает
+  тип проверки.
 - Число показывает конкретное правило внутри проверки.
 
 ## Таблица правил
@@ -17,6 +18,11 @@
 | `STYLE-002` | Запрет `\[` | Формула оформлена через `\[` | Замените на `equation/align/gather` | `make check-style` |
 | `STYLE-003` | Запрет `\]` | Закрытие старого display-math блока | Переведите формулу в окружение `equation/align/gather` | `make check-style` |
 | `STYLE-004` | Пустые строки вокруг блочных окружений | Нет пустой строки до/после `\begin{...}` или `\end{...}` | Добавьте пустые строки вокруг формул, рисунков, таблиц, TikZ и листингов | `make check-style` |
+| `CAPTION-000` | Наличие файла класса шаблона | Скрипт запущен не из корня проекта или класс удален | Проверьте путь к `thesis/sthg-vkr.cls` | `make check-caption-policy` |
+| `CAPTION-101` | Разделитель подписи листингов | Для `lstlisting` не задан `labelsep=emdash` | Установите `labelsep=emdash` в caption-настройке листингов | `make check-caption-policy` |
+| `CAPTION-102` | ГОСТ-политика подписи таблиц | Для `table` не задан режим top+left+emdash | Настройте `position=top`, `labelsep=emdash`, `justification=raggedright`, `singlelinecheck=false` | `make check-caption-policy` |
+| `CAPTION-201` | Минимальное число таблиц в шаблоне | В `content/*.tex` меньше 6 таблиц | Добавьте недостающие табличные примеры | `make check-caption-policy` |
+| `CAPTION-202` | Минимум таблиц в приложениях | В `content/appendix-*.tex` меньше 2 таблиц | Добавьте табличные приложения | `make check-caption-policy` |
 | `INTRO-000` | Наличие `content/introduction.tex` | Файл удален, переименован или перемещен | Верните файл или поправьте путь в скрипте | `make check-intro-structure` |
 | `INTRO-001` | Запрет inline-элементов во введении | Во введении есть `\autocite`, `\texttt`, `\textbf`, `\textit` | Уберите эти команды из введения | `make check-intro-structure` |
 | `INTRO-002` | Обязательные блоки введения | Отсутствует один из смысловых абзацев | Добавьте недостающий блок (актуальность/значимость/цель/задачи/структура) | `make check-intro-structure` |

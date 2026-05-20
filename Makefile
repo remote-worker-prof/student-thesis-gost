@@ -10,7 +10,7 @@ ENTRY_BASE := $(patsubst %.tex,%,$(ENTRY))
 PDF := build/$(ENTRY_BASE).pdf
 MATRIX_PDFS := build/main-bachelor.pdf build/main-specialist.pdf
 
-.PHONY: help build watch clean clean-build-temp distclean check check-help check-style check-intro-structure check-fonts check-layout check-structure build-matrix import-paratype-fonts format-content-80
+.PHONY: help build watch clean clean-build-temp distclean check check-help check-style check-intro-structure check-caption-policy check-fonts check-layout check-structure build-matrix import-paratype-fonts format-content-80
 
 help:
 	@echo "Основные команды для студента:"
@@ -21,6 +21,7 @@ help:
 	@echo "  make format-content-80"
 	@echo "  make check-help"
 	@echo "  make check-intro-structure"
+	@echo "  make check-caption-policy"
 	@echo "  make check"
 	@echo "  make clean | clean-build-temp | distclean"
 
@@ -54,6 +55,10 @@ check-intro-structure:
 	# Hard-fail проверка структуры и стилистики введения.
 	./scripts/check_intro_structure.sh
 
+check-caption-policy:
+	# Hard-fail проверка подписей и минимального числа ГОСТ-таблиц.
+	./scripts/check_caption_policy.sh
+
 check-help:
 	# Каталог проверок и навигация по правилам/кастомизации.
 	./scripts/check_help.sh
@@ -75,7 +80,7 @@ check-structure: build-matrix
 	done
 
 # Полный набор обязательных проверок перед push.
-check: check-style check-intro-structure check-fonts check-layout check-structure
+check: check-style check-intro-structure check-caption-policy check-fonts check-layout check-structure
 
 clean:
 	# Удаление промежуточных TeX-артефактов.
