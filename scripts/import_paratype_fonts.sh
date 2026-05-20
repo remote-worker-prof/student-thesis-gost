@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Импорт локальных архивов Paratype в репозиторий.
+# Нужен для воспроизводимой сборки без системных font fallback.
 SRC_DIR="${PARATYPE_ARCHIVE_DIR:-/home/sorcerer/Downloads/Fonts/Paratype}"
 DEST_DIR="fonts/paratype"
 
@@ -24,6 +26,7 @@ fi
 tmp_dir="$(mktemp -d)"
 trap 'rm -rf "$tmp_dir"' EXIT
 
+# Распаковка архивов и перенос только TTF файлов.
 mkdir -p "$DEST_DIR"
 
 for zip_file in "${ZIP_FILES[@]}"; do
@@ -42,6 +45,7 @@ done
 
 OFL_FILE="$(find "$tmp_dir" -type f -name 'OFL.txt' | head -n1 || true)"
 if [[ -n "$OFL_FILE" ]]; then
+  # Кладем лицензию рядом со шрифтами для юридической прозрачности.
   cp -f "$OFL_FILE" "$DEST_DIR/OFL.txt"
 fi
 
@@ -65,6 +69,7 @@ for required in "${required_files[@]}"; do
 done
 
 if (( missing != 0 )); then
+  # Останавливаемся, если набор неполный: strict-local policy в классе потребует все файлы.
   exit 1
 fi
 

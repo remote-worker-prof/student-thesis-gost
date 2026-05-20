@@ -1,11 +1,16 @@
+% Единый "скелет" диплома.
+% Студент обычно редактирует текст в content/*.tex, а порядок разделов — здесь.
 \makesthgtitle
 
+% Оглавление всегда идет со второй страницы (номер титула скрыт).
 \tableofcontents
 \clearpage
 
+% Введение традиционно без номера главы, но должно быть в оглавлении.
 \VkrUnnumberedChapter{ВВЕДЕНИЕ}
 \input{content/introduction.tex}
 
+% Основная часть: Глава 1.
 \chapter{Адаптивное обучение в контексте цифровизации образования}
 \section{Понятие адаптивного обучения и возможность применения информационных технологий}
 \input{content/chapter1.tex}
@@ -20,12 +25,15 @@
 \section{Описание структуры проекта, вариантов пользовательского взаимодействия и обзор результатов}
 \input{content/chapter2-results.tex}
 
+% Заключение также без номера главы.
 \VkrUnnumberedChapter{ЗАКЛЮЧЕНИЕ}
 \input{content/conclusion.tex}
 
+% Нормативные записи можно включать принудительно через nocite.
 \nocite{gost732,gost705,herzen-vkr-requirements,herzen-gia,minobrnauki636}
 \printbibliography[heading=bibintoc,title={Список используемых источников}]
 
+% Приложения.
 \appendix
 \chapter{Пример приложения}
 \input{content/appendix-a.tex}

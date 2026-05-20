@@ -1,4 +1,5 @@
-% Central metadata file for all title page and service fields.
+% Центральный файл метаданных.
+% Здесь студент обычно меняет тему, ФИО, руководителя, город и год.
 \renewcommand{\VkrMinistry}{МИНИСТЕРСТВО ПРОСВЕЩЕНИЯ РОССИЙСКОЙ ФЕДЕРАЦИИ}
 \renewcommand{\VkrUniversity}{%
 ФЕДЕРАЛЬНОЕ ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫСШЕГО ОБРАЗОВАНИЯ\\
@@ -12,14 +13,15 @@
 \renewcommand{\VkrStudentCourse}{4}
 \renewcommand{\VkrStudyForm}{очной}
 \renewcommand{\VkrStudentName}{Клементьева Алексея Александровича}
-\renewcommand{\VkrSupervisorPost}{Кандидат физико-математических наук, доцент, доцент кафедры ИТиЭО}
+% Важно: после двоеточия в титуле должность руководителя должна начинаться со строчной буквы.
+\renewcommand{\VkrSupervisorPost}{кандидат физико-математических наук, доцент, доцент кафедры ИТиЭО}
 \renewcommand{\VkrSupervisorName}{Власов Дмитрий Викторович}
 \renewcommand{\VkrCity}{Санкт-Петербург}
 \renewcommand{\VkrYear}{2025}
 \renewcommand{\VkrLogoPath}{assets/logo-rgpu-herzen.png}
 \renewcommand{\VkrRightBlockWidth}{95mm}
 
-% Degree-specific defaults can be overridden here if needed.
+% Ниже можно задать разный тип ВКР по уровню подготовки (бакалавр/специалитет).
 \edef\VkrBuildDegree{\VkrDegree}
 \ifdefstring{\VkrBuildDegree}{specialist}{%
   \renewcommand{\VkrWorkKind}{Выпускная квалификационная работа специалиста}

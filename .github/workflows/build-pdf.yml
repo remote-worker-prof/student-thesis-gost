@@ -1,5 +1,6 @@
 name: Build PDF
 
+# CI запускается на push/PR и вручную.
 on:
   push:
     branches: ["master", "main"]
@@ -8,15 +9,18 @@ on:
 
 jobs:
   build:
+    # Сборка и проверки выполняются в Linux-окружении GitHub Actions.
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Проверяем стиль исходников до тяжелой TeX-сборки.
       - name: TeX source style checks (hard-fail)
         run: ./scripts/check_tex_style.sh
 
+      # Собираем оба варианта ВКР (бакалавр и специалитет).
       - name: Compile PDFs (bachelor + specialist)
         uses: xu-cheng/latex-action@v3
         with:
@@ -26,9 +30,11 @@ jobs:
           latexmk_use_lualatex: true
           extra_system_packages: "biber make"
 
+      # poppler-utils нужен для pdffonts/pdftotext в проверочных скриптах.
       - name: Install check dependencies
         run: sudo apt-get update && sudo apt-get install -y poppler-utils
 
+      # Проверка шрифтов и структуры итоговых PDF.
       - name: Run PDF checks
         run: |
           ./scripts/check_fonts.sh build/main-bachelor.pdf
@@ -36,6 +42,7 @@ jobs:
           ./scripts/check_structure.sh build/main-bachelor.pdf
           ./scripts/check_structure.sh build/main-specialist.pdf
 
+      # Публикуем PDF как артефакты CI для скачивания.
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:

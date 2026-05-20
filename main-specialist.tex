@@ -1,8 +1,13 @@
+% Точка входа для сборки ВКР специалиста.
+% В остальном структура совпадает с main-bachelor.tex.
 \documentclass[degree=specialist,profile=rgpu-herzen,language=ru]{thesis/sthg-vkr}
 
+% Метаданные титульного листа и служебные поля.
 \input{config/metadata.tex}
+% Библиография в формате biblatex-gost.
 \addbibresource{bibliography/sources.bib}
 
 \begin{document}
+% Общий корпус документа (главы, введение, заключение, приложения).
 \input{thesis/document-body.tex}
 \end{document}

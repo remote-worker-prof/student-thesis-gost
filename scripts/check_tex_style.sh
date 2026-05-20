@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Линтер исходников .tex.
+# Цель: единый стиль и предсказуемая читаемость текста/блоков перед нормоконтролем.
 collect_files() {
   local -a roots=("$@")
   local -a found=()
@@ -23,8 +25,10 @@ collect_files() {
 }
 
 if (( $# > 0 )); then
+  # Можно передать конкретные пути для точечной проверки.
   mapfile -t TEX_FILES < <(collect_files "$@")
 else
+  # По умолчанию проверяем контент и основной body.
   mapfile -t TEX_FILES < <(collect_files content thesis/document-body.tex)
 fi
 
@@ -35,6 +39,7 @@ fi
 
 status=0
 
+# Запрещаем старый display-math синтаксис.
 if rg -n -F '$$' "${TEX_FILES[@]}"; then
   echo "ERROR: display math with \$\$...\$\$ is forbidden. Use equation/align/gather." >&2
   status=1
@@ -51,6 +56,7 @@ if rg -n -F '\\]' "${TEX_FILES[@]}"; then
 fi
 
 for tex_file in "${TEX_FILES[@]}"; do
+  # AWK-проход проверяет пустые строки вокруг блочных окружений.
   if ! awk '
     { lines[NR] = $0 }
     END {
@@ -81,6 +87,7 @@ for tex_file in "${TEX_FILES[@]}"; do
 done
 
 if (( status != 0 )); then
+  # Hard-fail: если стиль нарушен, сборку останавливаем.
   echo "ERROR: TeX style checks failed." >&2
   exit 1
 fi

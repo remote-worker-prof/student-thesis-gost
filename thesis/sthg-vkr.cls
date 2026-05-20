@@ -1,11 +1,16 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{sthg-vkr}[2026/05/20 v0.1 Student VKR template (GOST + RGPU profile)]
 
+% Базовая проверка движка: шаблон рассчитан на LuaLaTeX.
 \RequirePackage{iftex}
 \ifluatex\else
   \ClassError{sthg-vkr}{This template requires LuaLaTeX}{Run with lualatex.}
 \fi
 
+% Публичные параметры класса.
+% degree: bachelor|specialist
+% profile: пока поддерживается только rgpu-herzen
+% language: ru
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions{family=sthg,prefix=sthg@}
 \DeclareStringOption[bachelor]{degree}
@@ -13,8 +18,10 @@
 \DeclareStringOption[ru]{language}
 \ProcessKeyvalOptions*
 
+% Используем extreport 14pt как базу оформления.
 \LoadClass[14pt,a4paper,oneside]{extreport}
 
+% Пакеты макета, типографики и библиографии.
 \RequirePackage{etoolbox}
 \RequirePackage{geometry}
 \RequirePackage{setspace}
@@ -51,6 +58,7 @@
   doi=true
 ]{biblatex}
 
+% Библиотеки TikZ/PGFPlots для встроенных диаграмм в тексте диплома.
 \usetikzlibrary{
   arrows.meta,
   calc,
@@ -66,6 +74,7 @@
 \edef\sthg@degreeexpanded{\sthg@degree}
 \newcommand{\VkrDegree}{\sthg@degreeexpanded}
 
+% Валидация публичных параметров.
 \ifdefstring{\sthg@profileexpanded}{rgpu-herzen}{}{%
   \ClassError{sthg-vkr}{Unsupported profile '\sthg@profile'}{Only profile=rgpu-herzen is currently supported.}%
 }
@@ -78,6 +87,7 @@
   }%
 }
 
+% Базовые параметры страницы и абзацев по профилю шаблона.
 \geometry{left=30mm,right=15mm,top=20mm,bottom=20mm,headheight=0pt,headsep=0pt,footskip=12mm}
 \setstretch{1.5}
 \setlength{\parindent}{1.25cm}
@@ -88,7 +98,8 @@
 \setotherlanguage{english}
 \defaultfontfeatures{Ligatures=TeX}
 
-% Strict local font policy for reproducible builds.
+% Strict-local политика шрифтов:
+% сборка должна использовать только шрифты из репозитория.
 \newcommand{\sthg@requirefontfile}[1]{%
   \IfFileExists{#1}{}{%
     \ClassError{sthg-vkr}{Missing required local font file '#1'}{%
@@ -109,6 +120,7 @@
 \sthg@requirefontfile{fonts/firacode/FiraCode-Bold.ttf}
 \sthg@requirefontfile{fonts/stix/STIXTwoMath-Regular.otf}
 
+% Основной текст диплома: PT Astra Serif.
 \setmainfont{pt-astra-serif_regular.ttf}[
   Path=fonts/paratype/,
   BoldFont=pt-astra-serif_bold.ttf,
@@ -116,6 +128,7 @@
   BoldItalicFont=pt-astra-serif_bold-italic.ttf
 ]
 
+% Дополнительная sans-family (по требованию вуза/кафедры можно использовать точечно).
 \setsansfont{pt-astra-sans_regular.ttf}[
   Path=fonts/paratype/,
   BoldFont=pt-astra-sans_bold.ttf,
@@ -130,15 +143,18 @@
   BoldItalicFont=pt-astra-sans_bold-italic.ttf
 ]
 
+% Листинги кода: Fira Code.
 \setmonofont{FiraCode-Regular.ttf}[
   Path=fonts/firacode/,
   BoldFont=FiraCode-Bold.ttf,
   Scale=MatchLowercase
 ]
 
+% Формулы: STIX Two Math.
 \setmathfont{STIXTwoMath-Regular.otf}[Path=fonts/stix/]
 \numberwithin{equation}{chapter}
 
+% Нумерация страницы внизу по центру.
 \pagestyle{fancy}
 \fancyhf{}
 \fancyfoot[C]{\thepage}
@@ -152,6 +168,8 @@
 \renewcommand{\lstlistingname}{Листинг}
 \renewcommand{\lstlistlistingname}{Список листингов}
 
+% Языковые определения для листингов.
+% Rust/Kotlin задаем явно, чтобы было стабильное подсвечивание.
 \lstdefinelanguage{Rust}{
   sensitive=true,
   morekeywords={
@@ -176,6 +194,7 @@
   morestring=[b]"
 }
 
+% Базовый стиль листингов и производные стили по языкам.
 \lstdefinestyle{sthgcode-base}{
   basicstyle=\ttfamily\small,
   numbers=left,
@@ -197,8 +216,10 @@
 \lstdefinestyle{sthgcode-rust}{style=sthgcode-base,language=Rust}
 \lstdefinestyle{sthgcode-java}{style=sthgcode-base,language=Java}
 \lstdefinestyle{sthgcode-kotlin}{style=sthgcode-base,language=Kotlin}
+% По умолчанию листинги считаем Python-кодом.
 \lstset{style=sthgcode-python}
 
+% Оформление заголовков и оглавления.
 \titleformat{\chapter}[block]{\bfseries\centering}{Глава \thechapter.}{0.75em}{}
 \titlespacing*{\chapter}{0pt}{0pt}{12pt}
 \titleformat{\section}[block]{\bfseries}{\thesection}{0.75em}{}
@@ -219,6 +240,8 @@
 
 \hypersetup{pdflang={ru-RU},pdfauthor={Student Thesis GOST Project}}
 
+% Дефолтные метаданные титула.
+% Практически всегда переопределяются в config/metadata.tex.
 \providecommand{\VkrMinistry}{МИНИСТЕРСТВО ПРОСВЕЩЕНИЯ РОССИЙСКОЙ ФЕДЕРАЦИИ}
 \providecommand{\VkrUniversity}{ФЕДЕРАЛЬНОЕ ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫСШЕГО ОБРАЗОВАНИЯ\\«РОССИЙСКИЙ ГОСУДАРСТВЕННЫЙ\\ПЕДАГОГИЧЕСКИЙ УНИВЕРСИТЕТ им.~А.~И.~ГЕРЦЕНА»}
 \providecommand{\VkrDirectionCode}{09.03.01}
@@ -235,21 +258,27 @@
 \providecommand{\VkrStudentCourse}{4}
 \providecommand{\VkrStudyForm}{очной}
 \providecommand{\VkrStudentName}{Клементьева Алексея Александровича}
-\providecommand{\VkrSupervisorPost}{Кандидат физико-математических наук, доцент, доцент кафедры ИТиЭО}
+% Должность руководителя по умолчанию задается со строчной буквы
+% (после двоеточия в блоке титула).
+\providecommand{\VkrSupervisorPost}{кандидат физико-математических наук, доцент, доцент кафедры ИТиЭО}
 \providecommand{\VkrSupervisorName}{Власов Дмитрий Викторович}
 \providecommand{\VkrCity}{Санкт-Петербург}
 \providecommand{\VkrYear}{2025}
 \providecommand{\VkrLogoPath}{assets/logo-rgpu-herzen.png}
 \providecommand{\VkrRightBlockWidth}{95mm}
+% Тонкая настройка: отступ перед правым блоком (студент + руководитель).
+\providecommand{\VkrRightBlockTopSkip}{1.0\baselineskip}
 \providecommand{\VkrLogoWidth}{34mm}
 \providecommand{\VkrThemeWidth}{0.9\textwidth}
 
+% Служебная команда для ненумеруемых глав (введение/заключение).
 \newcommand{\VkrUnnumberedChapter}[1]{
   \chapter*{#1}
   \addcontentsline{toc}{chapter}{#1}
 }
 
-% Title page geometry follows the provided reference DOCX layout.
+% Титульный лист.
+% Геометрия ориентирована на эталонный DOCX и проверяется отдельным скриптом.
 \newcommand{\makesthgtitle}{%
   \begin{titlepage}
     \thispagestyle{empty}
@@ -273,7 +302,7 @@
         {\normalsize\parbox{\VkrThemeWidth}{\centering \VkrTheme}\par}
       \end{center}
 
-      \vspace{0.6\baselineskip}
+      \vspace{\VkrRightBlockTopSkip}
 
       \noindent\hfill
       \begin{minipage}[t]{\VkrRightBlockWidth}
