@@ -291,7 +291,13 @@
 \providecommand{\VkrTheme}{Разработка адаптивной системы обучения с использованием алгоритмов машинного обучения для персонализации учебного процесса}
 \providecommand{\VkrStudentCourse}{4}
 \providecommand{\VkrStudyForm}{очной}
+% Legacy-поле для совместимости со старыми форками/конфигами.
 \providecommand{\VkrStudentName}{Клементьева Алексея Александровича}
+% Новый стандарт: раздельные поля по падежам.
+% Если в форке задано только legacy-поле \VkrStudentName, оба поля ниже
+% автоматически унаследуют его значение и сборка останется рабочей.
+\providecommand{\VkrStudentNameGenitive}{\VkrStudentName}
+\providecommand{\VkrStudentNameNominative}{\VkrStudentName}
 % Должность руководителя по умолчанию задается со строчной буквы
 % (после двоеточия в блоке титула).
 \providecommand{\VkrSupervisorPost}{кандидат физико-математических наук, доцент, доцент кафедры ИТиЭО}
@@ -307,7 +313,7 @@
 \providecommand{\VkrThemeWidth}{0.9\textwidth}
 % Метаданные PDF (можно переопределить в config/metadata.tex).
 \providecommand{\VkrPdfTitle}{\VkrWorkKind}
-\providecommand{\VkrPdfAuthor}{\VkrStudentName}
+\providecommand{\VkrPdfAuthor}{\VkrStudentNameNominative}
 \providecommand{\VkrPdfSubject}{\VkrDirectionCode\space\VkrDirectionName}
 \providecommand{\VkrPdfKeywords}{ВКР, ГОСТ, LuaLaTeX}
 \providecommand{\VkrPdfCreator}{sthg-vkr class}
@@ -360,7 +366,7 @@
         \raggedright
         Обучающегося \underline{\hspace{1.2em}\VkrStudentCourse\hspace{1.2em}} курса\\
         \VkrStudyForm\ формы обучения\\
-        \textit{\VkrStudentName}
+        \textit{\VkrStudentNameGenitive}
 
         \vspace{0.6\baselineskip}
         Руководитель выпускной квалификационной работы:\\

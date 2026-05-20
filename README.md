@@ -54,6 +54,9 @@ make clean
 - [`main.tex`](main.tex) — дефолтный алиас на `main-bachelor.tex`.
 - [`thesis/document-body.tex`](thesis/document-body.tex) — общий корпус документа.
 - [`config/metadata.tex`](config/metadata.tex) — все титульные/служебные поля.
+  Для ФИО студента используются два отдельных поля:
+  `\VkrStudentNameGenitive` (титул) и `\VkrStudentNameNominative` (PDF Author).
+  Автоматического склонения нет, падежи задаются вручную.
 - [`thesis/sthg-vkr.cls`](thesis/sthg-vkr.cls) — класс и правила оформления.
 - `content/` — текст разделов.
 - `bibliography/` — bib-данные.
