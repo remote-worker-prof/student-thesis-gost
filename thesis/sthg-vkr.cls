@@ -267,7 +267,7 @@
 \providecommand{\VkrSupervisorPost}{кандидат физико-математических наук, доцент, доцент кафедры ИТиЭО}
 \providecommand{\VkrSupervisorName}{Власов Дмитрий Викторович}
 \providecommand{\VkrCity}{Санкт-Петербург}
-\providecommand{\VkrYear}{2025}
+\providecommand{\VkrYear}{2026}
 \providecommand{\VkrLogoPath}{assets/logo-rgpu-herzen.png}
 \providecommand{\VkrRightBlockWidth}{95mm}
 % Тонкая настройка: отступ перед правым блоком (студент + руководитель).
