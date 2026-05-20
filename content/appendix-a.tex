@@ -50,3 +50,14 @@ data class ScenarioConfig(
     val maxDifficulty: Int
 )
 \end{lstlisting}
+
+\section*{Python: постобработка обратной связи}
+
+\begin{lstlisting}[style=sthgcode-python,caption={Пример обновления профиля после экспертной ревизии}]
+def apply_expert_feedback(profile: dict, delta_reward: float) -> dict:
+    profile = dict(profile)
+    profile["reward_bias"] = round(profile.get("reward_bias", 0.0) + delta_reward, 4)
+    profile["manual_reviews"] = int(profile.get("manual_reviews", 0)) + 1
+    profile["needs_retrain"] = abs(profile["reward_bias"]) > 0.25
+    return profile
+\end{lstlisting}
