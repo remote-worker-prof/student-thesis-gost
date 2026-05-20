@@ -3,16 +3,16 @@
 В проект включены open-source шрифты для воспроизводимой LuaLaTeX-сборки.
 
 ## Serif (основной текст)
-- Семейство: Libertinus Serif (primary)
-- Файлы: `fonts/libertinus/LibertinusSerif-*.otf`
-- Источник: https://mirrors.ctan.org/fonts/libertinus-fonts/otf/
+- Семейство: PT Astra Serif (Paratype, primary)
+- Файлы: `fonts/paratype/pt-astra-serif_*.ttf`
+- Источник импорта: архивы из `PARATYPE_ARCHIVE_DIR` (по умолчанию `/home/sorcerer/Downloads/Fonts/Paratype`) через `make import-paratype-fonts`
 - Лицензия: SIL Open Font License 1.1
 
-## Serif fallback
-- Семейство: TeX Gyre Termes
-- Файлы: `fonts/texgyre/*.otf`
-- Источник: https://mirrors.ctan.org/fonts/tex-gyre/opentype/
-- Лицензия: GUST Font License (GFL)
+## Sans (дополнительная family)
+- Семейство: PT Astra Sans
+- Файлы: `fonts/paratype/pt-astra-sans_*.ttf`
+- Назначение: дополнительная `fontspec`-family (`\ParatypeSans`) и `\setsansfont`
+- Лицензия: SIL Open Font License 1.1
 
 ## Mono (код)
 - Семейство: Fira Code
@@ -29,4 +29,4 @@
 
 ## Принцип выбора
 - шрифты включены в репозиторий для стабильной сборки в локальной среде и CI,
-- в классе задан fallback на системные аналоги, если bundled-файлы недоступны.
+- используется strict-local политика: при отсутствии обязательных файлов сборка прерывается `\ClassError`.

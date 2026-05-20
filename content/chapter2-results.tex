@@ -2,6 +2,78 @@
 
 Качественная оценка включает: релевантность рекомендаций, прозрачность объяснений и стабильность поведения при неполных данных \autocite{ivanov2025edtech}. На уровне пользовательского опыта критичным является понятный механизм обоснования следующего шага, а не только формальная точность предсказания.
 
+На рисунке \ref{fig:recsys-pipeline} показан поток обработки событий от их поступления до формирования объяснимой рекомендации.
+
+\begin{figure}[htbp]
+\centering
+
+\begin{tikzpicture}[
+  scale=0.6,
+  transform shape,
+  >={Stealth[length=2.2mm]},
+  node distance=9mm,
+  stage/.style={draw, rounded corners, minimum width=28mm, minimum height=9.5mm, align=center, fill=purple!8},
+  io/.style={draw, ellipse, minimum width=26mm, minimum height=8mm, align=center, fill=green!10},
+  flow/.style={->, thick}
+]
+\node[io] (stream) {Поток событий};
+\node[stage, right=of stream] (clean) {Очистка\\и валидация};
+\node[stage, right=of clean] (features) {Извлечение\\признаков};
+\node[stage, right=of features] (policy) {Оценка\\политики};
+\node[stage, right=of policy] (explain) {Генерация\\объяснения};
+\node[io, right=of explain] (out) {Рекомендация};
+\node[stage, below=of features] (store) {Хранилище\\профилей};
+
+\draw[flow] (stream) -- (clean);
+\draw[flow] (clean) -- (features);
+\draw[flow] (features) -- (policy);
+\draw[flow] (policy) -- (explain);
+\draw[flow] (explain) -- (out);
+\draw[flow] (features) -- (store);
+\draw[flow] (store) -- (policy);
+\draw[flow, dashed] (out.south) to[bend right=24] node[midway, below, draw=none, fill=none] {факт выполнения} (stream.south);
+\end{tikzpicture}
+
+\caption{Pipeline формирования персонализированной рекомендации}
+\label{fig:recsys-pipeline}
+\end{figure}
+
+Динамика качества рекомендаций по эпохам обучения приведена на рисунке \ref{fig:quality-dynamics}.
+
+\begin{figure}[htbp]
+\centering
+
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.9\textwidth,
+  height=0.34\textwidth,
+  xlabel={Эпоха},
+  ylabel={Метрика качества},
+  ymin=0.5,
+  ymax=1.0,
+  xmin=1,
+  xmax=8,
+  grid=both,
+  legend style={at={(0.5,-0.2)}, anchor=north, legend columns=2},
+  tick label style={font=\small},
+  label style={font=\small}
+]
+\addplot+[mark=*, thick, blue!70!black] coordinates {
+  (1,0.58) (2,0.66) (3,0.71) (4,0.76) (5,0.81) (6,0.84) (7,0.87) (8,0.89)
+};
+\addlegendentry{NDCG@10}
+
+\addplot+[mark=square*, thick, red!70!black] coordinates {
+  (1,0.54) (2,0.63) (3,0.68) (4,0.73) (5,0.79) (6,0.82) (7,0.85) (8,0.88)
+};
+\addlegendentry{Precision@5}
+\end{axis}
+\end{tikzpicture}
+
+\caption{Пример динамики метрик качества в адаптивном контуре}
+\label{fig:quality-dynamics}
+\end{figure}
+
 Для иллюстрации архитектуры решения на рисунке \ref{fig:recsys-flow-example} приведена типовая схема рекомендательного контура: от входных данных и сегментации до выдачи персональных рекомендаций.
 
 \begin{figure}[htbp]

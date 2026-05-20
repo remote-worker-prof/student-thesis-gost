@@ -14,8 +14,12 @@ fi
 fonts_report="$(pdffonts "$pdf")"
 echo "$fonts_report"
 
-grep -Eiq 'Libertinus|Termes|TeXGyre' <<<"$fonts_report" || { echo "ERROR: Serif font (Libertinus/TeX Gyre) not embedded." >&2; exit 1; }
+grep -Eiq 'PTAstraSerif|PT-Astra-Serif|AstraSerif' <<<"$fonts_report" || { echo "ERROR: Serif font (PT Astra Serif) not embedded." >&2; exit 1; }
 grep -Eiq 'FiraCode|Fira' <<<"$fonts_report" || { echo "ERROR: Monospace font (Fira Code) not embedded." >&2; exit 1; }
 grep -Eiq 'STIXTwoMath|STIX' <<<"$fonts_report" || { echo "ERROR: Math font (STIX Two Math) not embedded." >&2; exit 1; }
+if grep -Eiq 'Libertinus|Termes|TeXGyre' <<<"$fonts_report"; then
+  echo "ERROR: Legacy serif fallback detected (Libertinus/TeX Gyre)." >&2
+  exit 1
+fi
 
 echo "Font check passed."

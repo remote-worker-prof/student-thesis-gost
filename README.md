@@ -13,7 +13,8 @@ Production-ready LuaLaTeX-шаблон ВКР под профиль `rgpu-herzen
 - Каркас ВКР: титул, содержание, введение, главы, заключение, литература, приложения.
 - Библиография `biblatex-gost + biber` через [`bibliography/sources.bib`](bibliography/sources.bib).
 - Bundled open-source шрифты в `fonts/`:
-  - serif: Libertinus Serif,
+  - serif: PT Astra Serif (Paratype, primary),
+  - sans: PT Astra Sans (дополнительная family),
   - mono: Fira Code,
   - math: STIX Two Math.
 - Локальные проверки: структура PDF, шрифты, регрессия титульника.
@@ -22,6 +23,7 @@ Production-ready LuaLaTeX-шаблон ВКР под профиль `rgpu-herzen
 ## Быстрый старт
 
 ```bash
+make import-paratype-fonts
 make build DEGREE=bachelor
 make build DEGREE=specialist
 make watch DEGREE=bachelor
@@ -58,3 +60,8 @@ make clean
   - титульник: геометрия эталонного DOCX,
   - основной текст: нормализованные параметры профиля/ГОСТ,
   - шрифты: open-source и воспроизводимость.
+
+## Политика шрифтов
+- Класс использует strict-local настройку `fontspec`: обязательные файлы шрифтов должны быть в репозитории.
+- Для импорта PT Astra Serif/Sans из архивов используйте `make import-paratype-fonts`.
+- Системные serif fallback отключены намеренно для воспроизводимой сборки.

@@ -1,3 +1,29 @@
 Адаптивное обучение рассматривается как модель управления образовательным процессом, в которой контент, сложность и темп подстраиваются под состояние обучающегося. В отличие от фиксированных курсов, адаптивная система использует наблюдаемые сигналы: результаты заданий, скорость решения, ошибки и повторные попытки.
 
 С методической точки зрения важны три блока: диагностика текущих знаний, выбор следующего шага обучения и обратная связь \autocite{kornilov2022adaptive}. На практике это означает необходимость формального представления знаний и модели принятия решений, способной работать в условиях неполной информации.
+
+Концептуально цикл адаптации можно представить как непрерывный контур анализа и корректировки учебной траектории.
+
+\begin{figure}[htbp]
+\centering
+
+\begin{tikzpicture}[
+  node distance=20mm,
+  every node/.style={draw, rounded corners, align=center, minimum height=10mm, text width=36mm, fill=blue!6},
+  >={Stealth[length=2.2mm]}
+]
+\node (diag) {Диагностика\\состояния знаний};
+\node (select) [right=of diag] {Выбор следующего\\учебного шага};
+\node (feedback) [below=of select] {Обратная связь\\и интерпретация};
+\node (update) [left=of feedback] {Обновление модели\\обучающегося};
+
+\draw[->, thick] (diag) -- (select);
+\draw[->, thick] (select) -- (feedback);
+\draw[->, thick] (feedback) -- (update);
+\draw[->, thick] (update) -- (diag);
+\draw[->, dashed] (diag) to[bend left=20] node[midway, above, draw=none, fill=none, text width=28mm] {переоценка\\рисков} (feedback);
+\end{tikzpicture}
+
+\caption{Концептуальный цикл адаптивного обучения}
+\label{fig:adaptive-cycle}
+\end{figure}

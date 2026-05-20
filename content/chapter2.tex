@@ -2,9 +2,42 @@
 
 Ключевой принцип реализации -- разделение ответственности между компонентами, что позволяет заменять отдельные модели без изменения интерфейсного контура. Для воспроизводимости конфигурация параметров хранится в явном виде, а сценарии тестирования отделены от эксплуатационных данных.
 
+Архитектура демонстрационного контура показана на рисунке \ref{fig:system-architecture}.
+
+\begin{figure}[htbp]
+\centering
+
+\begin{tikzpicture}[
+  scale=0.74,
+  transform shape,
+  >={Stealth[length=2.2mm]},
+  module/.style={draw, rounded corners, minimum width=34mm, minimum height=11mm, align=center, fill=teal!8},
+  data/.style={draw, trapezium, trapezium left angle=70, trapezium right angle=110, align=center, minimum width=28mm, minimum height=9mm, fill=orange!15},
+  line/.style={->, thick}
+]
+\node[data] (events) at (0, 0) {Учебные\\события};
+\node[module] (collector) at (4.1, 0) {Слой\\сбора};
+\node[module] (analytics) at (8.2, 0) {Аналитика\\состояния};
+\node[module] (recsys) at (12.3, 0) {Рекомендательный\\модуль};
+\node[module] (ui) at (16.4, 0) {Интерфейс\\преподавателя/студента};
+\node[data] (profile) at (8.2, -2.7) {Профиль\\обучающегося};
+
+\draw[line] (events) -- (collector);
+\draw[line] (collector) -- (analytics);
+\draw[line] (analytics) -- (recsys);
+\draw[line] (recsys) -- (ui);
+\draw[line] (analytics) -- (profile);
+\draw[line] (profile) -- (recsys);
+\draw[line, dashed] (ui.south) to[bend right=18] node[midway, below, draw=none, fill=none] {обратная связь} (collector.south);
+\end{tikzpicture}
+
+\caption{Модульная архитектура адаптивной системы обучения}
+\label{fig:system-architecture}
+\end{figure}
+
 Пример конфигурации модуля выбора заданий:
 
-\begin{lstlisting}[language=Python,caption={Фрагмент конфигурации рекомендательного модуля}]
+\begin{lstlisting}[caption={Фрагмент конфигурации рекомендательного модуля}]
 policy = {
     "algorithm": "dqn",
     "epsilon_start": 1.0,
