@@ -123,6 +123,7 @@
 \captionsetup{font=small,justification=centering}
 \captionsetup[table]{position=top}
 \captionsetup[figure]{position=bottom}
+\captionsetup[lstlisting]{font=small,justification=centering}
 \renewcommand{\lstlistingname}{Листинг}
 \renewcommand{\lstlistlistingname}{Список листингов}
 
