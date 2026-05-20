@@ -63,19 +63,19 @@
   \centering
 
   \begin{tikzpicture}[
-    scale=0.8,
-    transform shape,
+    x=11mm,
+    y=10mm,
     >={Stealth[length=2.4mm]},
-    module/.style={draw, rounded corners, minimum width=36mm, minimum height=11mm, align=center, fill=teal!8},
-    data/.style={draw, trapezium, trapezium left angle=70, trapezium right angle=110, align=center, minimum width=30mm, minimum height=9mm, fill=orange!15},
+    module/.style={draw, rounded corners, minimum width=22mm, minimum height=11mm, text width=21mm, align=center, fill=teal!8},
+    data/.style={draw, trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=20mm, minimum height=9mm, text width=19mm, align=center, fill=orange!15},
     line/.style={->, thick}
     ]
     \node[data] (events) at (0, 0) {Учебные\\события};
-    \node[module] (collector) at (4.6, 0) {Слой\\сбора};
-    \node[module] (analytics) at (9.2, 0) {Аналитика\\состояния};
-    \node[module] (recsys) at (13.8, 0) {Рекомендательный\\модуль};
-    \node[module] (ui) at (18.4, 0) {Интерфейс\\преподавателя/студента};
-    \node[data] (profile) at (9.2, -3.2) {Профиль\\обучающегося};
+    \node[module] (collector) at (2.8, 0) {Слой\\сбора};
+    \node[module] (analytics) at (5.6, 0) {Аналитика\\состояния};
+    \node[module] (recsys) at (8.4, 0) {Рекомендательный\\модуль};
+    \node[module] (ui) at (11.2, 0) {Интерфейс\\преподавателя\\и студента};
+    \node[data] (profile) at (5.6, -2.6) {Профиль\\обучающегося};
 
     \draw[line] (events) -- (collector);
     \draw[line] (collector) -- (analytics);
@@ -83,7 +83,7 @@
     \draw[line] (recsys) -- (ui);
     \draw[line] (analytics) -- (profile);
     \draw[line] (profile) -- (recsys);
-    \draw[line, dashed] (ui.south west) to[out=235,in=-15] node[midway, below, draw=none, fill=white, inner sep=1.5pt] {экспертная обратная связь} (collector.south east);
+    \draw[line, dashed] (ui.south west) to[out=235,in=-20,looseness=1.25] node[pos=0.52, below, yshift=-2pt, draw=none, fill=white, inner sep=1.2pt, font=\footnotesize] {экспертная обратная связь} (collector.south east);
   \end{tikzpicture}
 
   \caption{Модульная архитектура адаптивной системы обучения}

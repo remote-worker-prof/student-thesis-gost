@@ -54,20 +54,20 @@
   \centering
 
   \begin{tikzpicture}[
-    scale=0.74,
-    transform shape,
+    x=10mm,
+    y=10mm,
     >={Stealth[length=2.4mm]},
-    stage/.style={draw, rounded corners, minimum width=33mm, minimum height=10mm, align=center, fill=purple!8},
-    io/.style={draw, ellipse, minimum width=28mm, minimum height=8.5mm, align=center, fill=green!10},
+    stage/.style={draw, rounded corners, minimum width=22mm, minimum height=10mm, text width=20mm, align=center, fill=purple!8},
+    io/.style={draw, ellipse, minimum width=20mm, minimum height=8.5mm, text width=18mm, align=center, fill=green!10},
     flow/.style={->, thick}
     ]
     \node[io] (stream) at (0, 0) {Поток событий};
-    \node[stage] (clean) at (4.2, 0) {Очистка\\и валидация};
-    \node[stage] (features) at (8.4, 0) {Извлечение\\признаков};
-    \node[stage] (policy) at (12.6, 0) {Оценка\\политики};
-    \node[stage] (explain) at (16.8, 0) {Генерация\\объяснения};
-    \node[io] (out) at (21.0, 0) {Рекомендация};
-    \node[stage] (store) at (8.4, -3.1) {Хранилище\\профилей};
+    \node[stage] (clean) at (2.6, 0) {Очистка\\и валидация};
+    \node[stage] (features) at (5.2, 0) {Извлечение\\признаков};
+    \node[stage] (policy) at (7.8, 0) {Оценка\\политики};
+    \node[stage] (explain) at (10.4, 0) {Генерация\\объяснения};
+    \node[io] (out) at (13.0, 0) {Рекомендация};
+    \node[stage] (store) at (5.2, -2.7) {Хранилище\\профилей};
 
     \draw[flow] (stream) -- (clean);
     \draw[flow] (clean) -- (features);
@@ -76,7 +76,7 @@
     \draw[flow] (explain) -- (out);
     \draw[flow] (features) -- (store);
     \draw[flow] (store) -- (policy);
-    \draw[flow, dashed] (out.south west) to[out=230,in=-20] node[midway, below, draw=none, fill=white, inner sep=1.5pt] {факт выполнения и отклик} (stream.south east);
+    \draw[flow, dashed] (out.south west) to[out=240,in=-25,looseness=1.35] node[pos=0.52, below, yshift=-3pt, draw=none, fill=white, inner sep=1.2pt, font=\footnotesize] {факт выполнения и отклик} (stream.south east);
   \end{tikzpicture}
 
   \caption{Pipeline формирования персонализированной рекомендации}
