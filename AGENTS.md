@@ -81,4 +81,21 @@ bd close <id>         # Complete work
 - NEVER stop before pushing - that leaves work stranded locally
 - NEVER say "ready to push when you are" - YOU must push
 - If push fails, resolve and retry until it succeeds
+
+## Plan Kickoff Protocol (Mandatory)
+
+When the user asks to **implement a plan** (or equivalent), do this **before first code edits**:
+
+1. **Reflect plan in beads**
+   - Create/update one epic for the plan.
+   - Create child issues for major implementation chunks.
+   - Claim the issue being executed now.
+
+2. **Reflect kickoff in git**
+   - Create a kickoff checkpoint commit (empty commit allowed) that references the beads epic/issue ID.
+   - Then proceed with implementation commits by logical chunks.
+
+3. **Keep both systems in sync during execution**
+   - Update beads status/notes as chunks complete.
+   - Ensure matching git commits exist for completed chunks (do not leave major completed work uncommitted).
 <!-- END BEADS INTEGRATION -->
