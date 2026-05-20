@@ -1,0 +1,28 @@
+% Central metadata file for all title page and service fields.
+\renewcommand{\VkrMinistry}{МИНИСТЕРСТВО ПРОСВЕЩЕНИЯ РОССИЙСКОЙ ФЕДЕРАЦИИ}
+\renewcommand{\VkrUniversity}{%
+ФЕДЕРАЛЬНОЕ ГОСУДАРСТВЕННОЕ БЮДЖЕТНОЕ ОБРАЗОВАТЕЛЬНОЕ УЧРЕЖДЕНИЕ ВЫСШЕГО ОБРАЗОВАНИЯ\\
+«РОССИЙСКИЙ ГОСУДАРСТВЕННЫЙ\\
+ПЕДАГОГИЧЕСКИЙ УНИВЕРСИТЕТ им.~А.~И.~ГЕРЦЕНА»%
+}
+\renewcommand{\VkrDirectionCode}{09.03.01}
+\renewcommand{\VkrDirectionName}{Информатика и вычислительная техника}
+\renewcommand{\VkrProfileName}{Технологии разработки программного обеспечения}
+\renewcommand{\VkrTheme}{Разработка адаптивной системы обучения с использованием алгоритмов машинного обучения для персонализации учебного процесса}
+\renewcommand{\VkrStudentCourse}{4}
+\renewcommand{\VkrStudyForm}{очной}
+\renewcommand{\VkrStudentName}{Клементьева Алексея Александровича}
+\renewcommand{\VkrSupervisorPost}{Кандидат физико-математических наук, доцент, доцент кафедры ИТиЭО}
+\renewcommand{\VkrSupervisorName}{Власов Дмитрий Викторович}
+\renewcommand{\VkrCity}{Санкт-Петербург}
+\renewcommand{\VkrYear}{2025}
+\renewcommand{\VkrLogoPath}{assets/logo-rgpu-herzen.png}
+\renewcommand{\VkrRightBlockWidth}{95mm}
+
+% Degree-specific defaults can be overridden here if needed.
+\edef\VkrBuildDegree{\VkrDegree}
+\ifdefstring{\VkrBuildDegree}{specialist}{%
+  \renewcommand{\VkrWorkKind}{Выпускная квалификационная работа специалиста}
+}{%
+  \renewcommand{\VkrWorkKind}{Выпускная квалификационная работа}
+}

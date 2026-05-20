@@ -1,0 +1,31 @@
+\makesthgtitle
+
+\tableofcontents
+\clearpage
+
+\VkrUnnumberedChapter{ВВЕДЕНИЕ}
+\input{content/introduction.tex}
+
+\chapter{Адаптивное обучение в контексте цифровизации образования}
+\section{Понятие адаптивного обучения и возможность применения информационных технологий}
+\input{content/chapter1.tex}
+
+\section{Обоснование выбора и описание методов машинного обучения для создания адаптивной системы обучения}
+\input{content/chapter1-methods.tex}
+
+\chapter{Разработка адаптивной системы обучения}
+\section{Описание программной реализации системы и инструментов}
+\input{content/chapter2.tex}
+
+\section{Описание структуры проекта, вариантов пользовательского взаимодействия и обзор результатов}
+\input{content/chapter2-results.tex}
+
+\VkrUnnumberedChapter{ЗАКЛЮЧЕНИЕ}
+\input{content/conclusion.tex}
+
+\nocite{gost732,gost705,herzen-vkr-requirements,herzen-gia,minobrnauki636}
+\printbibliography[heading=bibintoc,title={Список используемых источников}]
+
+\appendix
+\chapter{Пример приложения}
+\input{content/appendix-a.tex}

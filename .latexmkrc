@@ -1,0 +1,12 @@
+$pdflatex = 'pdflatex %O %S';
+$lualatex = 'lualatex %O %S';
+$bibtex = 'bibtex %O %S';
+$biber = 'biber %O %S';
+$pdf_mode = 4;   # LuaLaTeX
+$out_dir = 'build';
+$aux_dir = 'build';
+$recorder = 1;
+$max_repeat = 5;
+$silent = 0;
+$cleanup_includes_generated = 1;
+$clean_ext = 'run.xml bcf bbl blg fdb_latexmk fls synctex.gz';

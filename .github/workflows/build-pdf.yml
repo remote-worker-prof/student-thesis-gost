@@ -1,0 +1,42 @@
+name: Build PDF
+
+on:
+  push:
+    branches: ["master", "main"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Compile PDFs (bachelor + specialist)
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: |
+            main-bachelor.tex
+            main-specialist.tex
+          latexmk_use_lualatex: true
+          extra_system_packages: "biber make"
+
+      - name: Install check dependencies
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+
+      - name: Run PDF checks
+        run: |
+          ./scripts/check_fonts.sh build/main-bachelor.pdf
+          ./scripts/check_fonts.sh build/main-specialist.pdf
+          ./scripts/check_structure.sh build/main-bachelor.pdf
+          ./scripts/check_structure.sh build/main-specialist.pdf
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: thesis-pdfs
+          path: |
+            build/main-bachelor.pdf
+            build/main-specialist.pdf
