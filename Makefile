@@ -8,7 +8,7 @@ ENTRY_BASE := $(patsubst %.tex,%,$(ENTRY))
 PDF := build/$(ENTRY_BASE).pdf
 MATRIX_PDFS := build/main-bachelor.pdf build/main-specialist.pdf
 
-.PHONY: help build watch clean distclean check check-fonts check-layout check-structure build-matrix
+.PHONY: help build watch clean distclean check check-style check-fonts check-layout check-structure build-matrix
 
 help:
 	@echo "Targets:"
@@ -28,6 +28,9 @@ build-matrix:
 	$(MAKE) build DEGREE=bachelor
 	$(MAKE) build DEGREE=specialist
 
+check-style:
+	./scripts/check_tex_style.sh
+
 check-fonts: build-matrix
 	@for pdf in $(MATRIX_PDFS); do \
 		./scripts/check_fonts.sh "$$pdf"; \
@@ -41,7 +44,7 @@ check-structure: build-matrix
 		./scripts/check_structure.sh "$$pdf"; \
 	done
 
-check: check-fonts check-layout check-structure
+check: check-style check-fonts check-layout check-structure
 
 clean:
 	latexmk -c main-bachelor.tex

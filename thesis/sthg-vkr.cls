@@ -21,6 +21,7 @@
 \RequirePackage{indentfirst}
 \RequirePackage{polyglossia}
 \RequirePackage{fontspec}
+\RequirePackage{amsmath}
 \RequirePackage{unicode-math}
 \RequirePackage{microtype}
 \RequirePackage{graphicx}
@@ -111,6 +112,7 @@
 }{%
   \IfFontExistsTF{STIX Two Math}{\setmathfont{STIX Two Math}}{\setmathfont{Latin Modern Math}}
 }
+\numberwithin{equation}{chapter}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -184,6 +186,8 @@
 \providecommand{\VkrYear}{2025}
 \providecommand{\VkrLogoPath}{assets/logo-rgpu-herzen.png}
 \providecommand{\VkrRightBlockWidth}{95mm}
+\providecommand{\VkrLogoWidth}{34mm}
+\providecommand{\VkrThemeWidth}{0.9\textwidth}
 
 \newcommand{\VkrUnnumberedChapter}[1]{
   \chapter*{#1}
@@ -194,43 +198,48 @@
 \newcommand{\makesthgtitle}{%
   \begin{titlepage}
     \thispagestyle{empty}
-    \begin{center}
-      {\normalsize \MakeUppercase{\VkrMinistry}\par}
-      \vspace{0.35\baselineskip}
-      {\normalsize \MakeUppercase{\VkrUniversity}\par}
-      \vspace{0.55\baselineskip}
-      \IfFileExists{\VkrLogoPath}{\includegraphics[width=42.8mm,height=42.1mm]{\VkrLogoPath}\par}{\vspace{42mm}}
-      \vspace{0.55\baselineskip}
-      {\normalsize Направление подготовки\par}
-      {\normalsize \VkrDirectionCode\ \VkrDirectionName\par}
-      \vspace{0.25\baselineskip}
-      {\normalsize Направленность (профиль)\par}
-      {\normalsize «\VkrProfileName»\par}
-      \vspace{0.8\baselineskip}
-      {\Large\bfseries \VkrWorkKind\par}
-      \vspace{0.55\baselineskip}
-      {\normalsize \VkrTheme\par}
-    \end{center}
+    \begingroup
+    \setstretch{1}
+      \begin{center}
+        {\normalsize \MakeUppercase{\VkrMinistry}\par}
+        \vspace{0.2\baselineskip}
+        {\normalsize \MakeUppercase{\VkrUniversity}\par}
+        \vspace{0.35\baselineskip}
+        \IfFileExists{\VkrLogoPath}{\includegraphics[width=\VkrLogoWidth]{\VkrLogoPath}\par}{\vspace{30mm}}
+        \vspace{0.35\baselineskip}
+        {\normalsize Направление подготовки\par}
+        {\normalsize \VkrDirectionCode\ \VkrDirectionName\par}
+        \vspace{0.15\baselineskip}
+        {\normalsize Направленность (профиль)\par}
+        {\normalsize «\VkrProfileName»\par}
+        \vspace{0.45\baselineskip}
+        {\large\bfseries \VkrWorkKind\par}
+        \vspace{0.35\baselineskip}
+        {\normalsize\parbox{\VkrThemeWidth}{\centering \VkrTheme}\par}
+      \end{center}
 
-    \vspace{1.2\baselineskip}
-    \noindent\hfill
-    \begin{minipage}[t]{\VkrRightBlockWidth}
-      \raggedright
-      Обучающегося \underline{\hspace{1.2em}\VkrStudentCourse\hspace{1.2em}} курса\\
-      \VkrStudyForm\ формы обучения\\
-      \textit{\VkrStudentName}
+      \vspace{0.6\baselineskip}
 
-      \vspace{0.9\baselineskip}
-      Руководитель выпускной квалификационной работы:\\
-      \VkrSupervisorPost\\
-      \VkrSupervisorName
-    \end{minipage}
+      \noindent\hfill
+      \begin{minipage}[t]{\VkrRightBlockWidth}
+        \raggedright
+        Обучающегося \underline{\hspace{1.2em}\VkrStudentCourse\hspace{1.2em}} курса\\
+        \VkrStudyForm\ формы обучения\\
+        \textit{\VkrStudentName}
 
-    \vfill
-    \begin{center}
-      \VkrCity\\
-      \VkrYear
-    \end{center}
+        \vspace{0.6\baselineskip}
+        Руководитель выпускной квалификационной работы:\\
+        \VkrSupervisorPost\\
+        \VkrSupervisorName
+      \end{minipage}
+
+      \vfill
+
+      \begin{center}
+        \VkrCity\\
+        \VkrYear
+      \end{center}
+    \endgroup
   \end{titlepage}
   \setcounter{page}{2}
 }

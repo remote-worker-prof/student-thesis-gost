@@ -14,6 +14,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: TeX source style checks (hard-fail)
+        run: ./scripts/check_tex_style.sh
+
       - name: Compile PDFs (bachelor + specialist)
         uses: xu-cheng/latex-action@v3
         with:
