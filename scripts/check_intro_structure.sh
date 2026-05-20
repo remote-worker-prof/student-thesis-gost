@@ -6,6 +6,29 @@ set -euo pipefail
 
 readonly INTRO_FILE="content/introduction.tex"
 status=0
+if command -v rg >/dev/null 2>&1; then
+  HAS_RG=1
+else
+  HAS_RG=0
+fi
+
+search_fixed() {
+  local needle="$1"
+  if (( HAS_RG == 1 )); then
+    rg -n -m1 -F "${needle}" "${INTRO_FILE}"
+  else
+    grep -n -m1 -F -- "${needle}" "${INTRO_FILE}"
+  fi
+}
+
+search_fixed_all() {
+  local needle="$1"
+  if (( HAS_RG == 1 )); then
+    rg -n -F "${needle}" "${INTRO_FILE}"
+  else
+    grep -n -F -- "${needle}" "${INTRO_FILE}"
+  fi
+}
 
 if [[ ! -f "${INTRO_FILE}" ]]; then
   echo "ERROR: introduction file not found: ${INTRO_FILE}" >&2
@@ -14,12 +37,12 @@ fi
 
 find_line() {
   local needle="$1"
-  rg -n -m1 -F "${needle}" "${INTRO_FILE}" | cut -d: -f1
+  search_fixed "${needle}" | cut -d: -f1
 }
 
 # 1) Запрещаем ссылки и inline-выделения во введении.
 for forbidden in '\autocite' '\texttt{' '\textbf{' '\textit{'; do
-  if rg -n -F "${forbidden}" "${INTRO_FILE}"; then
+  if search_fixed_all "${forbidden}"; then
     echo "ERROR: forbidden token in introduction: ${forbidden}" >&2
     status=1
   fi

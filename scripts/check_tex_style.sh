@@ -3,6 +3,31 @@ set -euo pipefail
 
 # Линтер исходников .tex.
 # Цель: единый стиль и предсказуемая читаемость текста/блоков перед нормоконтролем.
+if command -v rg >/dev/null 2>&1; then
+  HAS_RG=1
+else
+  HAS_RG=0
+fi
+
+collect_tex_files_from_dir() {
+  local root="$1"
+  if (( HAS_RG == 1 )); then
+    rg --files "$root" -g '*.tex'
+  else
+    find "$root" -type f -name '*.tex'
+  fi
+}
+
+search_fixed() {
+  local needle="$1"
+  shift
+  if (( HAS_RG == 1 )); then
+    rg -n -F "$needle" "$@"
+  else
+    grep -n -F -- "$needle" "$@"
+  fi
+}
+
 collect_files() {
   local -a roots=("$@")
   local -a found=()
@@ -11,7 +36,7 @@ collect_files() {
     if [[ -d "$root" ]]; then
       while IFS= read -r f; do
         found+=("$f")
-      done < <(rg --files "$root" -g '*.tex')
+      done < <(collect_tex_files_from_dir "$root")
     elif [[ -f "$root" ]]; then
       found+=("$root")
     fi
@@ -40,17 +65,17 @@ fi
 status=0
 
 # Запрещаем старый display-math синтаксис.
-if rg -n -F '$$' "${TEX_FILES[@]}"; then
+if search_fixed '$$' "${TEX_FILES[@]}"; then
   echo "ERROR: display math with \$\$...\$\$ is forbidden. Use equation/align/gather." >&2
   status=1
 fi
 
-if rg -n -F '\\[' "${TEX_FILES[@]}"; then
+if search_fixed '\\[' "${TEX_FILES[@]}"; then
   echo "ERROR: display math with \\\[ ... is forbidden. Use equation/align/gather." >&2
   status=1
 fi
 
-if rg -n -F '\\]' "${TEX_FILES[@]}"; then
+if search_fixed '\\]' "${TEX_FILES[@]}"; then
   echo "ERROR: display math with ... \\] is forbidden. Use equation/align/gather." >&2
   status=1
 fi
