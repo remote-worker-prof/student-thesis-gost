@@ -4,8 +4,19 @@
 *.db
 .beads-credential-key
 
-# LaTeX build output
-build/
+# LaTeX build output (временные файлы в build/, кроме PDF)
+build/*.aux
+build/*.bbl
+build/*.bcf
+build/*.blg
+build/*.fdb_latexmk
+build/*.fls
+build/*.log
+build/*.out
+build/*.run.xml
+build/*.synctex.gz
+build/*.toc
+build/*-SAVE-ERROR
 *.aux
 *.bbl
 *.bcf

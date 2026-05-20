@@ -10,7 +10,7 @@ ENTRY_BASE := $(patsubst %.tex,%,$(ENTRY))
 PDF := build/$(ENTRY_BASE).pdf
 MATRIX_PDFS := build/main-bachelor.pdf build/main-specialist.pdf
 
-.PHONY: help build watch clean distclean check check-style check-intro-structure check-fonts check-layout check-structure build-matrix import-paratype-fonts format-content-80
+.PHONY: help build watch clean clean-build-temp distclean check check-style check-intro-structure check-fonts check-layout check-structure build-matrix import-paratype-fonts format-content-80
 
 help:
 	@echo "Основные команды для студента:"
@@ -21,7 +21,7 @@ help:
 	@echo "  make format-content-80"
 	@echo "  make check-intro-structure"
 	@echo "  make check"
-	@echo "  make clean | distclean"
+	@echo "  make clean | clean-build-temp | distclean"
 
 import-paratype-fonts:
 	# Импорт PT Astra из локальных архивов (см. scripts/import_paratype_fonts.sh).
@@ -77,6 +77,17 @@ clean:
 	latexmk -c main-bachelor.tex
 	latexmk -c main-specialist.tex
 	rm -f build/main.pdf
+
+clean-build-temp:
+	# Удаление только временных артефактов в build/ (PDF сохраняются).
+	@if [ -d build ]; then \
+		find build -maxdepth 1 -type f \
+		\( -name '*.aux' -o -name '*.bbl' -o -name '*.bcf' -o -name '*.blg' \
+		-o -name '*.fdb_latexmk' -o -name '*.fls' -o -name '*.log' \
+		-o -name '*.out' -o -name '*.run.xml' -o -name '*.synctex.gz' \
+		-o -name '*.toc' -o -name '*-SAVE-ERROR' \) \
+		-delete; \
+	fi
 
 distclean:
 	# Полная очистка build/ и вспомогательных файлов.
