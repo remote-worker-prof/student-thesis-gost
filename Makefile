@@ -8,14 +8,18 @@ ENTRY_BASE := $(patsubst %.tex,%,$(ENTRY))
 PDF := build/$(ENTRY_BASE).pdf
 MATRIX_PDFS := build/main-bachelor.pdf build/main-specialist.pdf
 
-.PHONY: help build watch clean distclean check check-style check-fonts check-layout check-structure build-matrix
+.PHONY: help build watch clean distclean check check-style check-fonts check-layout check-structure build-matrix import-paratype-fonts
 
 help:
 	@echo "Targets:"
 	@echo "  make build DEGREE=bachelor|specialist"
 	@echo "  make watch DEGREE=bachelor|specialist"
+	@echo "  make import-paratype-fonts"
 	@echo "  make check"
 	@echo "  make clean | distclean"
+
+import-paratype-fonts:
+	./scripts/import_paratype_fonts.sh
 
 build:
 	latexmk -interaction=nonstopmode -halt-on-error -file-line-error -lualatex $(ENTRY)
