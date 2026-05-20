@@ -44,6 +44,8 @@
 \RequirePackage{listings}
 \RequirePackage{csquotes}
 \RequirePackage[hidelinks]{hyperref}
+% URL-гиперссылки (в т.ч. в библиографии) набираем тем же шрифтом, что и текст.
+\urlstyle{same}
 \RequirePackage[
   backend=biber,
   style=gost-numeric,
