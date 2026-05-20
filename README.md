@@ -24,6 +24,7 @@ Production-ready LuaLaTeX-шаблон ВКР под профиль `rgpu-herzen
 
 ```bash
 make import-paratype-fonts
+make format-content-80
 make build DEGREE=bachelor
 make build DEGREE=specialist
 make watch DEGREE=bachelor
@@ -65,6 +66,12 @@ make clean
 - Класс использует strict-local настройку `fontspec`: обязательные файлы шрифтов должны быть в репозитории.
 - Для импорта PT Astra Serif/Sans из архивов используйте `make import-paratype-fonts`.
 - Системные serif fallback отключены намеренно для воспроизводимой сборки.
+
+## Форматирование текста (80 символов)
+- Команда `make format-content-80` форматирует только `content/*.tex`.
+- Ограничение `80` применяется к narrative-прозе; технические конструкции LaTeX и verbatim-блоки не режутся принудительно.
+- Основа: `latexindent` (обычно доступен в TeX Live/MiKTeX).
+- Upstream: https://github.com/cmhughes/latexindent.pl
 
 ## License
 - Основная лицензия проекта: [MIT](LICENSE).
