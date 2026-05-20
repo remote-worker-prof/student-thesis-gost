@@ -25,6 +25,7 @@ Production-ready LuaLaTeX-шаблон ВКР под профиль `rgpu-herzen
 ```bash
 make import-paratype-fonts
 make format-content-80
+make check-help
 make build DEGREE=bachelor
 make build DEGREE=specialist
 make watch DEGREE=bachelor
@@ -38,6 +39,11 @@ make clean
 3. проверку структуры разделов,
 4. визуальную регрессию титульного листа относительно
    `00-input-examples/Клементьев А.А. Дипломная работа.docx`.
+
+Проверки и подсказки по ним:
+- `make check-help` — краткий каталог всех проверок и их назначение.
+- `docs/checks-troubleshooting.md` — расшифровка кодов ошибок и примеры исправлений.
+- `docs/checks-customization.md` — где и как безопасно менять правила в своем форке.
 
 ## Требования окружения
 - `lualatex`, `latexmk`, `biber`
@@ -72,6 +78,12 @@ make clean
 - Ограничение `80` применяется к narrative-прозе; технические конструкции LaTeX и verbatim-блоки не режутся принудительно.
 - Основа: `latexindent` (обычно доступен в TeX Live/MiKTeX).
 - Upstream: https://github.com/cmhughes/latexindent.pl
+
+## Проверки и кастомизация в форках
+- Все hard-fail проверки используют единый учебный формат сообщений с кодами правил (`STYLE-*`, `INTRO-*`, `FONT-*`, `STRUCT-*`, `LAYOUT-*`).
+- Быстрый обзор правил: `make check-help`.
+- Подробные разборы ошибок: `docs/checks-troubleshooting.md`.
+- Точки безопасной кастомизации в форке: `docs/checks-customization.md`.
 
 ## License
 - Основная лицензия проекта: [MIT](LICENSE).
