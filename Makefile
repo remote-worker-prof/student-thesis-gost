@@ -10,7 +10,7 @@ ENTRY_BASE := $(patsubst %.tex,%,$(ENTRY))
 PDF := build/$(ENTRY_BASE).pdf
 MATRIX_PDFS := build/main-bachelor.pdf build/main-specialist.pdf
 
-.PHONY: help build watch clean distclean check check-style check-fonts check-layout check-structure build-matrix import-paratype-fonts format-content-80
+.PHONY: help build watch clean distclean check check-style check-intro-structure check-fonts check-layout check-structure build-matrix import-paratype-fonts format-content-80
 
 help:
 	@echo "Основные команды для студента:"
@@ -19,6 +19,7 @@ help:
 	@echo "  make watch DEGREE=bachelor|specialist"
 	@echo "  make import-paratype-fonts"
 	@echo "  make format-content-80"
+	@echo "  make check-intro-structure"
 	@echo "  make check"
 	@echo "  make clean | distclean"
 
@@ -48,6 +49,10 @@ check-style:
 	# Линтер TeX-стиля: запрет $$ и \[...\], пустые строки вокруг блоков.
 	./scripts/check_tex_style.sh
 
+check-intro-structure:
+	# Hard-fail проверка структуры и стилистики введения.
+	./scripts/check_intro_structure.sh
+
 check-fonts: build-matrix
 	# Проверка встроенных шрифтов в итоговых PDF.
 	@for pdf in $(MATRIX_PDFS); do \
@@ -65,7 +70,7 @@ check-structure: build-matrix
 	done
 
 # Полный набор обязательных проверок перед push.
-check: check-style check-fonts check-layout check-structure
+check: check-style check-intro-structure check-fonts check-layout check-structure
 
 clean:
 	# Удаление промежуточных TeX-артефактов.

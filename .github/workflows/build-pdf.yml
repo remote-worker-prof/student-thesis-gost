@@ -18,7 +18,9 @@ jobs:
 
       # Проверяем стиль исходников до тяжелой TeX-сборки.
       - name: TeX source style checks (hard-fail)
-        run: ./scripts/check_tex_style.sh
+        run: |
+          ./scripts/check_tex_style.sh
+          ./scripts/check_intro_structure.sh
 
       # Собираем оба варианта ВКР (бакалавр и специалитет).
       - name: Compile PDFs (bachelor + specialist)
