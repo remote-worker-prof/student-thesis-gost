@@ -23,7 +23,6 @@ Production-ready LuaLaTeX-шаблон ВКР под профиль `rgpu-herzen
 ## Быстрый старт
 
 ```bash
-make import-paratype-fonts
 make format-content-80
 make check-help
 make build DEGREE=bachelor
@@ -70,8 +69,12 @@ make clean
 
 ## Политика шрифтов
 - Класс использует strict-local настройку `fontspec`: обязательные файлы шрифтов должны быть в репозитории.
-- Для импорта PT Astra Serif/Sans из архивов используйте `make import-paratype-fonts`.
 - Системные serif fallback отключены намеренно для воспроизводимой сборки.
+
+### Как обновлять шрифты в своем форке
+1. Замените файлы нужного семейства напрямую в `fonts/` (с сохранением имен файлов, которые использует класс).
+2. Проверьте, что лицензии/атрибуции актуальны в `THIRD_PARTY_NOTICES.md`.
+3. Запустите `make check-fonts`, затем `make check`.
 
 ## Форматирование текста (80 символов)
 - Команда `make format-content-80` форматирует только `content/*.tex`.

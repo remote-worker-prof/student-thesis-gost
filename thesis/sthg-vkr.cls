@@ -105,7 +105,7 @@
 \newcommand{\sthg@requirefontfile}[1]{%
   \IfFileExists{#1}{}{%
     \ClassError{sthg-vkr}{Missing required local font file '#1'}{%
-      This template uses strict-local fonts only. Run 'make import-paratype-fonts' and ensure bundled font files exist in the repository.%
+      This template uses strict-local bundled fonts only. Ensure required files exist in the repository under fonts/.%
     }%
   }%
 }

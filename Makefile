@@ -10,24 +10,19 @@ ENTRY_BASE := $(patsubst %.tex,%,$(ENTRY))
 PDF := build/$(ENTRY_BASE).pdf
 MATRIX_PDFS := build/main-bachelor.pdf build/main-specialist.pdf
 
-.PHONY: help build watch clean clean-build-temp distclean check check-help check-style check-intro-structure check-caption-policy check-fonts check-layout check-structure build-matrix import-paratype-fonts format-content-80
+.PHONY: help build watch clean clean-build-temp distclean check check-help check-style check-intro-structure check-caption-policy check-fonts check-layout check-structure build-matrix format-content-80
 
 help:
 	@echo "Основные команды для студента:"
 	@echo "Targets:"
 	@echo "  make build DEGREE=bachelor|specialist"
 	@echo "  make watch DEGREE=bachelor|specialist"
-	@echo "  make import-paratype-fonts"
 	@echo "  make format-content-80"
 	@echo "  make check-help"
 	@echo "  make check-intro-structure"
 	@echo "  make check-caption-policy"
 	@echo "  make check"
 	@echo "  make clean | clean-build-temp | distclean"
-
-import-paratype-fonts:
-	# Импорт PT Astra из локальных архивов (см. scripts/import_paratype_fonts.sh).
-	./scripts/import_paratype_fonts.sh
 
 format-content-80:
 	# Форматирование narrative-текста диплома в content/*.tex до 80 символов.

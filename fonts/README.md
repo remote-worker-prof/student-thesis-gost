@@ -5,7 +5,6 @@
 ## Serif (основной текст)
 - Семейство: PT Astra Serif (Paratype, primary)
 - Файлы: `fonts/paratype/pt-astra-serif_*.ttf`
-- Источник импорта: архивы из `PARATYPE_ARCHIVE_DIR` (по умолчанию `/home/sorcerer/Downloads/Fonts/Paratype`) через `make import-paratype-fonts`
 - Лицензия: SIL Open Font License 1.1
 
 ## Sans (дополнительная family)
