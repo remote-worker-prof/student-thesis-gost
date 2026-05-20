@@ -164,7 +164,9 @@
 \captionsetup{font=small,justification=centering}
 \captionsetup[table]{position=top}
 \captionsetup[figure]{position=bottom}
-\captionsetup[lstlisting]{font=small,justification=centering}
+% Подписи листингов держим в том же типографическом режиме, что figure/table:
+% serif-шрифт, одинаковый кегль и выравнивание.
+\captionsetup[lstlisting]{font={small,rm},labelfont={rm},textfont={rm},justification=centering}
 \renewcommand{\lstlistingname}{Листинг}
 \renewcommand{\lstlistlistingname}{Список листингов}
 
