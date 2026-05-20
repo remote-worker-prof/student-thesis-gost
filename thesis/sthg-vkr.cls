@@ -269,7 +269,8 @@
 \providecommand{\VkrLogoPath}{assets/logo-rgpu-herzen.png}
 \providecommand{\VkrRightBlockWidth}{95mm}
 % Тонкая настройка: отступ перед правым блоком (студент + руководитель).
-\providecommand{\VkrRightBlockTopSkip}{1.0\baselineskip}
+% Немного увеличен для более гармоничной вертикальной композиции титула.
+\providecommand{\VkrRightBlockTopSkip}{1.25\baselineskip}
 \providecommand{\VkrLogoWidth}{34mm}
 \providecommand{\VkrThemeWidth}{0.9\textwidth}
 
