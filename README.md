@@ -65,3 +65,10 @@ make clean
 - Класс использует strict-local настройку `fontspec`: обязательные файлы шрифтов должны быть в репозитории.
 - Для импорта PT Astra Serif/Sans из архивов используйте `make import-paratype-fonts`.
 - Системные serif fallback отключены намеренно для воспроизводимой сборки.
+
+## License
+- Основная лицензия проекта: [MIT](LICENSE).
+- Copyright (c) 2026 Dmitry Vlasov.
+
+## Third-party licenses
+- Лицензии и атрибуции для шрифтов и изображений: [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
