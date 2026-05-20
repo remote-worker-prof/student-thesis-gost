@@ -26,6 +26,8 @@
 \RequirePackage{microtype}
 \RequirePackage{graphicx}
 \RequirePackage{xcolor}
+\RequirePackage{tikz}
+\RequirePackage{pgfplots}
 \RequirePackage{booktabs}
 \RequirePackage{array}
 \RequirePackage{titlesec}
@@ -48,6 +50,16 @@
   url=true,
   doi=true
 ]{biblatex}
+
+\usetikzlibrary{
+  arrows.meta,
+  calc,
+  fit,
+  positioning,
+  shapes.geometric,
+  shapes.misc
+}
+\pgfplotsset{compat=1.18}
 
 \edef\sthg@profileexpanded{\sthg@profile}
 \edef\sthg@languageexpanded{\sthg@language}
@@ -76,42 +88,55 @@
 \setotherlanguage{english}
 \defaultfontfeatures{Ligatures=TeX}
 
-% Font stack: bundled open-source first, then system fallback.
-\IfFileExists{fonts/libertinus/LibertinusSerif-Regular.otf}{%
-  \setmainfont{LibertinusSerif-Regular.otf}[
-    Path=fonts/libertinus/,
-    BoldFont=LibertinusSerif-Bold.otf,
-    ItalicFont=LibertinusSerif-Italic.otf,
-    BoldItalicFont=LibertinusSerif-BoldItalic.otf
-  ]
-}{%
-  \IfFileExists{fonts/texgyre/texgyretermes-regular.otf}{%
-    \setmainfont{texgyretermes-regular.otf}[
-      Path=fonts/texgyre/,
-      BoldFont=texgyretermes-bold.otf,
-      ItalicFont=texgyretermes-italic.otf,
-      BoldItalicFont=texgyretermes-bolditalic.otf
-    ]
-  }{%
-    \IfFontExistsTF{Libertinus Serif}{\setmainfont{Libertinus Serif}}{\setmainfont{TeX Gyre Termes}}%
+% Strict local font policy for reproducible builds.
+\newcommand{\sthg@requirefontfile}[1]{%
+  \IfFileExists{#1}{}{%
+    \ClassError{sthg-vkr}{Missing required local font file '#1'}{%
+      This template uses strict-local fonts only. Run 'make import-paratype-fonts' and ensure bundled font files exist in the repository.%
+    }%
   }%
 }
 
-\IfFileExists{fonts/firacode/FiraCode-Regular.ttf}{%
-  \setmonofont{FiraCode-Regular.ttf}[
-    Path=fonts/firacode/,
-    BoldFont=FiraCode-Bold.ttf,
-    Scale=MatchLowercase
-  ]
-}{%
-  \IfFontExistsTF{Fira Code}{\setmonofont{Fira Code}[Scale=MatchLowercase]}{\setmonofont{Latin Modern Mono}[Scale=MatchLowercase]}
-}
+\sthg@requirefontfile{fonts/paratype/pt-astra-serif_regular.ttf}
+\sthg@requirefontfile{fonts/paratype/pt-astra-serif_bold.ttf}
+\sthg@requirefontfile{fonts/paratype/pt-astra-serif_italic.ttf}
+\sthg@requirefontfile{fonts/paratype/pt-astra-serif_bold-italic.ttf}
+\sthg@requirefontfile{fonts/paratype/pt-astra-sans_regular.ttf}
+\sthg@requirefontfile{fonts/paratype/pt-astra-sans_bold.ttf}
+\sthg@requirefontfile{fonts/paratype/pt-astra-sans_italic.ttf}
+\sthg@requirefontfile{fonts/paratype/pt-astra-sans_bold-italic.ttf}
+\sthg@requirefontfile{fonts/firacode/FiraCode-Regular.ttf}
+\sthg@requirefontfile{fonts/firacode/FiraCode-Bold.ttf}
+\sthg@requirefontfile{fonts/stix/STIXTwoMath-Regular.otf}
 
-\IfFileExists{fonts/stix/STIXTwoMath-Regular.otf}{%
-  \setmathfont{STIXTwoMath-Regular.otf}[Path=fonts/stix/]
-}{%
-  \IfFontExistsTF{STIX Two Math}{\setmathfont{STIX Two Math}}{\setmathfont{Latin Modern Math}}
-}
+\setmainfont{pt-astra-serif_regular.ttf}[
+  Path=fonts/paratype/,
+  BoldFont=pt-astra-serif_bold.ttf,
+  ItalicFont=pt-astra-serif_italic.ttf,
+  BoldItalicFont=pt-astra-serif_bold-italic.ttf
+]
+
+\setsansfont{pt-astra-sans_regular.ttf}[
+  Path=fonts/paratype/,
+  BoldFont=pt-astra-sans_bold.ttf,
+  ItalicFont=pt-astra-sans_italic.ttf,
+  BoldItalicFont=pt-astra-sans_bold-italic.ttf
+]
+
+\newfontfamily\ParatypeSans{pt-astra-sans_regular.ttf}[
+  Path=fonts/paratype/,
+  BoldFont=pt-astra-sans_bold.ttf,
+  ItalicFont=pt-astra-sans_italic.ttf,
+  BoldItalicFont=pt-astra-sans_bold-italic.ttf
+]
+
+\setmonofont{FiraCode-Regular.ttf}[
+  Path=fonts/firacode/,
+  BoldFont=FiraCode-Bold.ttf,
+  Scale=MatchLowercase
+]
+
+\setmathfont{STIXTwoMath-Regular.otf}[Path=fonts/stix/]
 \numberwithin{equation}{chapter}
 
 \pagestyle{fancy}
@@ -127,7 +152,31 @@
 \renewcommand{\lstlistingname}{Листинг}
 \renewcommand{\lstlistlistingname}{Список листингов}
 
-\lstdefinestyle{sthgcode}{
+\lstdefinelanguage{Rust}{
+  sensitive=true,
+  morekeywords={
+    as,break,const,continue,crate,else,enum,extern,false,fn,for,if,impl,in,let,loop,
+    match,mod,move,mut,pub,ref,return,self,Self,static,struct,super,trait,true,type,
+    unsafe,use,where,while,async,await,dyn
+  },
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]"
+}
+
+\lstdefinelanguage{Kotlin}{
+  sensitive=true,
+  morekeywords={
+    as,break,class,continue,do,else,false,for,fun,if,in,interface,is,null,object,
+    package,return,super,this,throw,true,try,typealias,val,var,when,while,by,companion,
+    data,enum,import,init,open,operator,out,override,private,protected,public,sealed,suspend
+  },
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]"
+}
+
+\lstdefinestyle{sthgcode-base}{
   basicstyle=\ttfamily\small,
   numbers=left,
   numberstyle=\tiny,
@@ -143,7 +192,12 @@
   commentstyle=\itshape\color{green!30!black},
   stringstyle=\color{red!45!black}
 }
-\lstset{style=sthgcode}
+\lstdefinestyle{sthgcode-python}{style=sthgcode-base,language=Python}
+\lstdefinestyle{sthgcode-c}{style=sthgcode-base,language=C}
+\lstdefinestyle{sthgcode-rust}{style=sthgcode-base,language=Rust}
+\lstdefinestyle{sthgcode-java}{style=sthgcode-base,language=Java}
+\lstdefinestyle{sthgcode-kotlin}{style=sthgcode-base,language=Kotlin}
+\lstset{style=sthgcode-python}
 
 \titleformat{\chapter}[block]{\bfseries\centering}{Глава \thechapter.}{0.75em}{}
 \titlespacing*{\chapter}{0pt}{0pt}{12pt}

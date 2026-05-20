@@ -1,6 +1,50 @@
-В приложении приводятся дополнительные материалы, не нарушающие основную логику изложения:
-\begin{itemize}
-  \item расширенные таблицы параметров эксперимента;
-  \item примеры пользовательских сценариев;
-  \item фрагменты журналов системы.
-\end{itemize}
+В приложении приводятся дополнительные примеры программных фрагментов для разных языков разработки.
+
+\section*{Python}
+
+\begin{lstlisting}[style=sthgcode-python,caption={Пример функции обновления приоритета задания}]
+def update_priority(skill_score: float, fatigue: float) -> float:
+    base = 0.7 * (1.0 - skill_score)
+    penalty = 0.3 * fatigue
+    return max(0.0, min(1.0, base + penalty))
+\end{lstlisting}
+
+\section*{C}
+
+\begin{lstlisting}[style=sthgcode-c,caption={Пример структуры события обучения}]
+typedef struct {
+    int student_id;
+    int task_id;
+    double response_time;
+    int is_correct;
+} LearningEvent;
+\end{lstlisting}
+
+\section*{Rust}
+
+\begin{lstlisting}[style=sthgcode-rust,caption={Пример расчета скользящего качества}]
+pub fn moving_average(scores: &[f64], window: usize) -> Vec<f64> {
+    scores
+        .windows(window)
+        .map(|chunk| chunk.iter().sum::<f64>() / window as f64)
+        .collect()
+}
+\end{lstlisting}
+
+\section*{Java}
+
+\begin{lstlisting}[style=sthgcode-java,caption={Пример интерфейса рекомендательного сервиса}]
+public interface RecommendationService {
+    Recommendation nextTask(StudentState state);
+}
+\end{lstlisting}
+
+\section*{Kotlin}
+
+\begin{lstlisting}[style=sthgcode-kotlin,caption={Пример конфигурации адаптивного сценария}]
+data class ScenarioConfig(
+    val profile: String,
+    val minDifficulty: Int,
+    val maxDifficulty: Int
+)
+\end{lstlisting}
